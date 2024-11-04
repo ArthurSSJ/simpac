@@ -1,3 +1,82 @@
+ Documentação do Sistema SIMPAC
+
+ 1. Introdução
+
+O NUPEX (Núcleo de Apoio à Pesquisa e Extensão da Univiçosa), responsável por gerenciar as avaliações feitas no SIMPAC (Simpósio de Pesquisa e Extensão da Univiçosa), enfrenta desafios na entrega eficiente de resultados e na gestão manual das avaliações. O projeto visa otimizar esse processo por meio de uma aplicação que proporciona eficiência na organização de projetos por curso, resultando em entregas mais rápidas e menos trabalho repetitivo para os organizadores.
+
+ 2. Tecnologias Utilizadas
+
+- Framework: CodeIgniter 4
+- Banco de Dados: MySQL, gerenciado via PHPMyAdmin
+- Frontend**: HTML, CSS (Tailwind CSS)
+
+
+O CodeIgniter 4 foi escolhido por sua leveza, simplicidade e por oferecer uma arquitetura MVC robusta, que facilita a separação entre lógica de negócio, interface e acesso aos dados. O banco de dados MySQL, administrado via PHPMyAdmin, será utilizado para armazenar todas as informações referentes a resumos, avaliadores, notas, entre outros.
+
+ 3. Funcionalidades Principais
+
+ 3.1 Área Admin
+A área administrativa permite aos organizadores realizar as seguintes operações:
+- Selecionar Avaliadores: Escolher avaliadores para os resumos.
+- Criar/Alterar Trabalhos: Gerenciar os trabalhos submetidos.
+- Editar/Excluir Resumos: Manipular os resumos cadastrados no sistema.
+- Gerenciar Avaliadores: Adicionar, editar ou excluir avaliadores.
+
+ 3.2 Área Avaliador
+Os avaliadores têm acesso à lista de resumos atribuídos a eles, podendo visualizar as informações e submeter suas avaliações:
+- Visualizar Resumos: Acesso às informações do resumo (curso, protocolo, etc.).
+- Inserir e Modificar Notas: Avaliar os resumos e enviar suas avaliações.
+
+ 3.3 Resultados
+Os resultados são disponibilizados para consulta tanto pelos avaliadores quanto pelos participantes:
+- Resultados Pôster e Oral: Trabalhos aprovados para apresentações.
+- Resumos Aprovados**: Disponibilizados via um link externo.
+
+ 3.4 Login
+Sistema de autenticação que controla o acesso às áreas administrativas e de avaliadores.
+
+ 4. Módulos do Sistema
+
+ 4.1 Home
+A página inicial dá acesso a diferentes áreas do sistema, como "Admin", "Avaliador", "Resultados" e "Resumos Aprovados".
+
+ 4.2 Gerenciamento de Avaliadores
+Módulo que permite ao administrador selecionar avaliadores para revisar os resumos submetidos.
+
+ 4.3 Cadastro de Trabalhos
+Permite o cadastro de novos trabalhos com detalhes como curso, resumo e protocolo.
+
+ 4.4 Avaliação de Resumos
+Os avaliadores podem visualizar os resumos e atribuir notas de acordo com os critérios estabelecidos.
+
+ 4.5 Exibição de Resultados
+Os resultados das avaliações são compilados e disponibilizados para consulta na área de "Resultados".
+
+ 5. Fluxo de Trabalho
+
+ 5.1 Login e Acesso ao Sistema
+Os usuários se autenticam para acessar suas respectivas áreas: Administrador ou Avaliador.
+
+ 5.2 Avaliação de Resumos
+O avaliador acessa sua lista de resumos, preenche as notas conforme o modelo avaliativo e envia as avaliações para o sistema.
+
+ 5.3 Gestão de Resumos e Avaliadores
+Os administradores gerenciam tanto os resumos submetidos quanto os avaliadores, com possibilidade de criar, editar e excluir registros.
+
+ 5.4 Visualização de Resultados
+Após as avaliações, os resultados são exibidos publicamente ou de forma controlada, conforme as permissões dos usuários.
+
+ 6. Requisitos Funcionais
+
+- Cadastro e gerenciamento de usuários (admin e avaliador).
+- Sistema de autenticação para controle de acesso.
+- Gerenciamento de resumos, trabalhos e avaliadores.
+- Inserção e modificação de notas pelos avaliadores.
+- Visualização de resultados por usuários autorizados.
+
+ 7. Considerações Finais
+
+Esse sistema visa trazer mais eficiência ao processo de avaliação de resumos no SIMPAC, automatizando tarefas e facilitando a gestão de grandes volumes de dados.
 <<<<<<< HEAD
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
