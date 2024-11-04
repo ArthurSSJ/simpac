@@ -11,12 +11,39 @@
                 </div>
 
                 <!-- Navigation Links -->
-                @if(auth()->check())
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                </div>
+                @if(Auth::check())
+                @if(Auth::user()->role === 'admin')
+                <ul class="ms-6 hidden space-x-2 sm:flex sm:items-center">
+                    <li>
+                        <a href="{{ route('inicio') }}" class="text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('inicio') ? 'bg-gray-200 dark:bg-gray-700' : '' }}">
+                            {{ __('Início') }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('trabalho.index') }}" class="text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('trabalho.index') ? 'bg-gray-200 dark:bg-gray-700' : '' }}">
+                            {{ __('Trabalhos') }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('avaliadores.index') }}" class="text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('avaliadores.index') ? 'bg-gray-200 dark:bg-gray-700' : '' }}">
+                            {{ __('Avaliadores') }}
+                        </a>
+                    </li>
+                </ul>
+                @elseif(Auth::user()->role === 'avaliador')
+                <ul class="hidden space-x-8 sm:flex sm:items-center">
+                    <li>
+                        <a href="{{ route('inicio') }}" class="text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('inicio') ? 'bg-gray-200 dark:bg-gray-700' : '' }}">
+                            {{ __('Início') }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('trabalho.index') }}" class="text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('trabalho.index') ? 'bg-gray-200 dark:bg-gray-700' : '' }}">
+                            {{ __('Trabalhos') }}
+                        </a>
+                    </li>
+                </ul>
+                @endif
                 @endif
             </div>
 
@@ -79,8 +106,13 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+            <x-responsive-nav-link :href="route('trabalho.index')" :active="request()->routeIs('trabalho.index')">
+                {{ __('Trabalhos') }}
+            </x-responsive-nav-link>
+        </div>
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('avaliadores.index')" :active="request()->routeIs('avaliadores.index')">
+                {{ __('Avaliadores') }}
             </x-responsive-nav-link>
         </div>
 

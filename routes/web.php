@@ -21,26 +21,14 @@ Route::get('/resultados', function () {
     return view('resultados');
 })->name('resultados');
 
-Route::get('/criar_trabalhos', function () {
-    return view('criar_trabalhos');
-})->name('criar_trabalhos');
-
-Route::get('avaliar-trabalhos', function () {
-    return view('avaliador/avaliar');
-})->name('trabalhos.avaliar');
-
-Route::get('/home', function () {
-    return view('home');
-});
-
-Route::get('/dashboard', function () {
+Route::get('/inicio', function () {
     if (Auth::user()->role === 'admin') {
         return view('admin.dashboard'); // Carrega o dashboard para Admin
     } elseif (Auth::user()->role === 'avaliador') {
         return view('avaliador.dashboard'); // Carrega o dashboard para Avaliador
     }
     return abort(403); // Retorna erro 403 se o usuário não tiver a role correta
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified'])->name('inicio');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -118,9 +106,15 @@ Route::get('/trabalhos', function () {
         $trabalhoController = new TrabalhoController();
         $trabalhos = Trabalho::all();
         return view('admin.listar-trabalhos', compact('trabalhos'));
+    }else if (Auth::check() && Auth::user()->role === 'avaliador') {
+        $avaliadorController = new AvaliadorController();
+        $trabalhos = $avaliadorController->listarTrabalhosAtribuidos();
+        return view('avaliador.trabalhos', compact('trabalhos'));
     }
     return abort(403); // Acesso negado se o usuário não for admin
 })->name('trabalho.index');
+
+
 
 // Rota para criar um novo trabalho
 Route::get('/trabalhos/criar', function () {
