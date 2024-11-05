@@ -31,7 +31,7 @@
                     </li>
                 </ul>
                 @elseif(Auth::user()->role === 'avaliador')
-                <ul class="hidden space-x-8 sm:flex sm:items-center">
+                <ul class="ms-6 hidden space-x-2 sm:flex sm:items-center">
                     <li>
                         <a href="{{ route('inicio') }}" class="text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('inicio') ? 'bg-gray-200 dark:bg-gray-700' : '' }}">
                             {{ __('Início') }}
