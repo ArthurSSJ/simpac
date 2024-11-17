@@ -7,7 +7,11 @@
         <!-- Título e Linha de Separação -->
         <h1 class="text-4xl font-bold text-[#2e4a67] mb-1">SIMPAC</h1>
         <p class="text-lg text-[#2e4a67] mb-8">Trabalhos</p>
-
+        @if (session('success'))
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+            {{ session('success') }}
+        </div>
+        @endif
         <!-- Grade de Quadrados -->
         <div class="grid grid-cols-2 gap-6">
 

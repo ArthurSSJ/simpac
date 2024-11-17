@@ -222,8 +222,8 @@ Route::post('/trabalhos/{trabalho}/atribuir-avaliadores', function (Request $req
 Route::get('/avaliador/trabalhos/{trabalho}/avaliar', function ($id) {
     if (Auth::check() && Auth::user()->role === 'avaliador') {
         $avaliadorController = new AvaliadorController();
-        $trabalho = $avaliadorController->mostrarTrabalho($id);
-        return view('avaliador.avaliar', compact('trabalho'));
+        $trabalho = $avaliadorController->mostrarTrabalho($id); // Obtém o objeto Trabalho
+        return view('avaliador.avaliar', compact('trabalho')); // Renderiza a view com o objeto
     }
     return abort(403);
 })->name('avaliador.trabalho.avaliar');
@@ -235,7 +235,7 @@ Route::post('/avaliador/trabalhos/{trabalho}/avaliar', function (Request $reques
         return $avaliadorController->submeterAvaliacao($request, $id);
     }
     return abort(403);
-});
+})->name('avaliador.trabalho.avaliar');
 
 
 

@@ -6,7 +6,7 @@
     </h2>
 </x-slot>
 
-<div class="">
+<!-- <div class="">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 text-gray-900 text-2xl sm:text-3xl font-semibold underline decoration-4 decoration-blue-500">
@@ -14,7 +14,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 <div class="container m-auto py-4 flex flex-col justify-center items-center gap-6">
 
@@ -23,31 +23,17 @@
         <h1 class="text-4xl font-bold text-[#2e4a67] mb-1">SIMPAC</h1>
         <p class="text-lg text-[#2e4a67] mb-8">Portal do Avaliador</p>
 
-        <!-- Grade de Quadrados -->
-        <div class="grid grid-cols-2 gap-6">
-            <a href="{{ route('trabalho.index') }}">
-                <div class="bg-gray-300 p-4 rounded-lg text-center text-gray-800 text-sm font-semibold flex items-center justify-center h-32">
-                    A Teoria da panderção de princípios e o ativismo Judicial: Uma análise do possível desvirtuamento do princípio da proporcionalidade pelo STF
-                </div>
-            </a>
-            </a>
-            <a href="{{ route('trabalho.index') }}">
-                <div class="bg-gray-300 p-4 rounded-lg text-center text-gray-800 text-sm font-semibold flex items-center justify-center h-32">
-                    A Teoria da panderção de princípios e o ativismo Judicial: Uma análise do possível desvirtuamento do princípio da proporcionalidade pelo STF
-                </div>
-            </a>
-            </a>
-            <a href="{{ route('trabalho.index') }}">
-                <div class="bg-gray-300 p-4 rounded-lg text-center text-gray-800 text-sm font-semibold flex items-center justify-center h-32">
-                    A Teoria da panderção de princípios e o ativismo Judicial: Uma análise do possível desvirtuamento do princípio da proporcionalidade pelo STF
-                </div>
-            </a>
-            </a>
-            <a href="{{ route('trabalho.index') }}">
-                <div class="bg-gray-300 p-4 rounded-lg text-center text-gray-800 text-sm font-semibold flex items-center justify-center h-32">
-                    A Teoria da panderção de princípios e o ativismo Judicial: Uma análise do possível desvirtuamento do princípio da proporcionalidade pelo STF
-                </div>
-            </a>
+        <div class="container m-auto py-4 flex flex-col justify-center items-center gap-6">
+
+            <div class="flex flex-col gap-8 w-full max-w-80 px-4">
+                <a href="{{ route('trabalho.index') }}" class="bg-blue-900 w-full px-2 py-2 rounded-2xl text-lg text-white font-semibold hover:bg-blue-800 text-center">Avaliar</a>
+
+                <a href="{{ route('trabalho.index') }}" class="bg-blue-900 w-full px-2 py-2 rounded-2xl text-lg text-white font-semibold hover:bg-blue-800 text-center">Trabalhos avaliados</a>
+
+                <a href="{{ route('resultados') }}" class="bg-blue-900 w-full px-2 py-2 rounded-2xl text-lg text-white font-semibold hover:bg-blue-800 text-center">Resultados</a>
+
+                <a href="{{ route('home') }}" class="bg-blue-900 w-full px-2 py-2 rounded-2xl text-lg text-white font-semibold hover:bg-blue-800 text-center">Página inicial</a>
+            </div>
         </div>
     </div>
 </div>
