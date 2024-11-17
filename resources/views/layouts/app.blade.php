@@ -26,7 +26,7 @@
     </main>
 
     <footer class="w-full bg-black flex flex-col justify-center items-center gap-2 py-2 mt-5">
-        <img src="" alt="" class="w-1/2 max-w-36">
+        <img src="{{ asset('images/univicosa-hori.svg') }}" alt="" class="w-1/2 max-w-36">
 
         <p class="text-white font-semibold">contato@univicosa.com.br</p>
 

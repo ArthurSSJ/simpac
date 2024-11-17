@@ -36,7 +36,18 @@
                 <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{ $avaliador->name }}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{ $avaliador->email }}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-gray-900">
-                    <!-- Ações -->
+                    <div class="flex items-center justify-center gap-2">
+                        <a href="{{ route('avaliadores.edit', $avaliador->id) }}" class="bg-green-500 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-semibold">Editar</a>
+                        <form action="{{ route('avaliadores.destroy', $avaliador->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+
+                            <button type="submit" class="bg-red-500 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-semibold"
+                                onclick="return confirm('Deseja excluir este avaliador?')">
+                                Excluir
+                            </button>
+                        </form>
+                    </div>
                 </td>
             </tr>
             @endforeach

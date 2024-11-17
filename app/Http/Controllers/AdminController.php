@@ -34,4 +34,42 @@ class AdminController extends Controller
 
         return redirect()->route('avaliadores.index')->with('success', 'Avaliador criado com sucesso!'); // Redireciona corretamente
     }
+
+    // Método para editar um avaliador
+    public function editAvaliador($id)
+    {
+        $avaliador = User::findOrFail($id);
+        return view('admin.editar-avaliador', compact('avaliador'));
+    }
+
+    // Método para atualizar um avaliador
+    public function updateAvaliador(Request $request,
+        $id
+    ) {
+        $avaliador = User::findOrFail($id);
+
+        // Validação dos dados
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $avaliador->id,
+        ]);
+
+        // Atualização dos dados do avaliador
+        $avaliador->update([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
+
+        return redirect()->route('avaliadores.index')->with('success', 'Avaliador atualizado com sucesso!');
+    }
+
+    
+    // Método para excluir um avaliador
+    public function destroyAvaliador($id)
+    {
+        $avaliador = User::findOrFail($id);
+        $avaliador->delete();
+
+        return redirect()->route('avaliadores.index')->with('success', 'Avaliador excluído com sucesso!');
+    }
 }

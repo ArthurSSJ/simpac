@@ -16,9 +16,11 @@
      <!-- Grade de Quadrados -->
      <div class="grid grid-cols-2 gap-6">
          @foreach ($trabalhos as $trabalho)
-         <div class="bg-gray-300 p-4 rounded-lg text-center text-gray-800 text-sm font-semibold flex items-center justify-center h-32">
-             {{ $trabalho->resumo }}
-         </div>
+         <a href="{{ route('trabalhos.edit', $trabalho->id) }}">
+             <div class="bg-gray-300 p-4 rounded-lg text-center text-gray-800 text-sm font-semibold flex items-center justify-center h-32">
+                 {{ $trabalho->resumo }}
+             </div>
+         </a>
          @endforeach
      </div>
  </div>

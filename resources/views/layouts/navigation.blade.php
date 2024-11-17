@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('home') }}">
-                        <img src="{{ asset('images/univicosa-hori.svg') }}" alt="Logo" class="block h-10" />
+                        <img src="{{ asset('images/univicosa-hori.svg') }}" alt="Logo" class="block h-10 max-h-10" />
                     </a>
                 </div>
 

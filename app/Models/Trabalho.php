@@ -24,6 +24,12 @@ class Trabalho extends Model
 
     }
 
+    // Relacionamento com as avaliações
+    public function avaliacoes()
+    {
+        return $this->hasMany(Avaliacao::class);
+    }
+    
     // Relacionamento com o usuário avaliador
     public function avaliadores()
     {

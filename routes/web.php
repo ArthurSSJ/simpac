@@ -84,6 +84,34 @@ Route::post('/avaliadores/criar', function () {
     return abort(403); // Retorna erro 403 se o usuário não for admin
 })->name('avaliadores.store');
 
+// Rota para editar o avaliador
+Route::get('/avaliadores/{avaliador}/editar', function ($id) {
+    if (Auth::check() && Auth::user()->role === 'admin') {
+        $adminController = new AdminController();
+        return $adminController->editAvaliador($id);
+    }
+    return abort(403); // Retorna erro 403 se o usuário não for admin
+})->name('avaliadores.edit');
+
+// Rota para atualizar o avaliador
+Route::put('/avaliadores/{avaliador}/editar', function (Request $request, $id) {
+    if (Auth::check() && Auth::user()->role === 'admin') {
+        $adminController = new AdminController();
+        return $adminController->updateAvaliador($request, $id);
+    }
+    return abort(403); // Retorna erro 403 se o usuário não for admin
+})->name('avaliadores.update');
+
+// Rota para excluir o avaliador
+Route::delete('/avaliadores/{avaliador}', function ($id) {
+    if (Auth::check() && Auth::user()->role === 'admin') {
+        $adminController = new AdminController();
+        return $adminController->destroyAvaliador($id);
+    }
+    return abort(403); // Retorna erro 403 se o usuário não for admin
+})->name('avaliadores.destroy');
+
+
 
 
 
@@ -100,20 +128,26 @@ Route::get('/login/avaliador', [AuthController::class, 'showAvaliadorLogin'])->n
 
 
 
-// Rota para listar todos os trabalhos
 Route::get('/trabalhos', function () {
     if (Auth::check() && Auth::user()->role === 'admin') {
-        $trabalhoController = new TrabalhoController();
         $trabalhos = Trabalho::all();
         return view('admin.listar-trabalhos', compact('trabalhos'));
-    }else if (Auth::check() && Auth::user()->role === 'avaliador') {
+    } else if (Auth::check() && Auth::user()->role === 'avaliador') {
         $avaliadorController = new AvaliadorController();
         $trabalhos = $avaliadorController->listarTrabalhosAtribuidos();
-        return view('avaliador.trabalhos', compact('trabalhos'));
+        return view('avaliador.listar-trabalhos', compact('trabalhos'));
     }
-    return abort(403); // Acesso negado se o usuário não for admin
+    return abort(403);
 })->name('trabalho.index');
 
+Route::get('/trabalhos/{trabalho}/avaliar', function ($id) {
+    if (Auth::check() && Auth::user()->role === 'avaliador') {
+        $avaliadorController = new AvaliadorController();
+        $trabalho = $avaliadorController->mostrarTrabalho($id);
+        return view('avaliador.avaliar', compact('trabalho'));
+    }
+    return abort(403);
+})->name('trabalho.avaliar');
 
 
 // Rota para criar um novo trabalho
@@ -135,22 +169,22 @@ Route::post('/trabalhos/criar', function (Request $request) {
     return abort(403);
 })->name('trabalhos.store');
 
-// Rota para editar um trabalho existente
+// Rota para exibir o formulário de edição de um trabalho existente
 Route::get('/trabalhos/{trabalho}/editar', function ($id) {
     if (Auth::check() && Auth::user()->role === 'admin') {
         $trabalhoController = new TrabalhoController();
-        $trabalho = $trabalhoController->edit($id);
-        return view('trabalhos.edit', compact('trabalho'));
+        return $trabalhoController->edit($id); // Chama o método edit, que já retorna a view correta
     }
-    return abort(403);
+    return abort(403); // Retorna erro 403 se o usuário não for admin
 })->name('trabalhos.edit');
 
+// Rota para atualizar o trabalho existente
 Route::post('/trabalhos/{trabalho}/editar', function (Request $request, $id) {
     if (Auth::check() && Auth::user()->role === 'admin') {
         $trabalhoController = new TrabalhoController();
         return $trabalhoController->update($request, $id);
     }
-    return abort(403);
+    return abort(403); // Retorna erro 403 se o usuário não for admin
 })->name('trabalhos.update');
 
 // Rota para excluir um trabalho
@@ -183,17 +217,6 @@ Route::post('/trabalhos/{trabalho}/atribuir-avaliadores', function (Request $req
 
 
 
-
-
-// Rota para listar trabalhos atribuídos ao avaliador
-Route::get('/avaliador/trabalhos', function () {
-    if (Auth::check() && Auth::user()->role === 'avaliador') {
-        $avaliadorController = new AvaliadorController();
-        $trabalhos = $avaliadorController->listarTrabalhosAtribuidos();
-        return view('avaliador.trabalhos', compact('trabalhos'));
-    }
-    return abort(403);
-})->name('avaliador.trabalhos');
 
 // Rota para acessar um trabalho específico para avaliação
 Route::get('/avaliador/trabalhos/{trabalho}/avaliar', function ($id) {

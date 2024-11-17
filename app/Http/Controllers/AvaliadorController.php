@@ -13,33 +13,29 @@ class AvaliadorController extends Controller
     public function listarTrabalhosAtribuidos()
     {
         $avaliadorId = Auth::id();
+        // Obtenha os trabalhos do avaliador
         $trabalhos = Trabalho::whereHas('avaliadores', function ($query) use ($avaliadorId) {
             $query->where('avaliador_id', $avaliadorId);
         })->get();
 
-        return view('avaliador.trabalhos', compact('trabalhos'));
+        // Retorna apenas os dados
+        return $trabalhos;
     }
 
-    // Exibe detalhes de um trabalho para avaliação
     public function mostrarTrabalho($id)
     {
         $trabalho = Trabalho::findOrFail($id);
         return view('avaliador.avaliar', compact('trabalho'));
     }
 
-    // Submete avaliação para um trabalho
     public function submeterAvaliacao(Request $request, $id)
     {
         $trabalho = Trabalho::findOrFail($id);
-        // Exemplo de lógica para salvar a avaliação do avaliador
-        // A lógica dependerá dos campos exatos na tabela de avaliação
         $request->validate([
             'comentarios' => 'required|string'
         ]);
 
-        // Salvar a avaliação
-        return redirect()->route('avaliador.trabalhos')->with('success', 'Avaliação submetida com sucesso!');
+        return redirect()->route('avaliador.listar-trabalhos')->with('success', 'Avaliação submetida com sucesso!');
     }
-
 }
 

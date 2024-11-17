@@ -55,12 +55,15 @@
         <div class="mb-5">
             <!-- Lista de avaliadores para atribuição -->
             <label for="avaliadores" class="block font-medium text-gray-900">Selecionar Avaliadores</label>
-            <select name="avaliadores[]" multiple id="avaliadores" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-00 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
-                <option value="" class="">Selecione avaliadores</option>
+            <div class="shadow-sm bg-gray-50 border border-gray-300 text-gray-00 rounded-lg block w-full p-2.5" required>
+                <p class="font-medium text-gray-900">Selecionar Avaliadores</p>
                 @foreach ($avaliadores as $avaliador)
-                <option value="{{ $avaliador->id }}">{{ $avaliador->name }}</option>
+                <div class="flex items-center">
+                    <input type="checkbox" name="avaliadores[]" value="{{ $avaliador->id }}" id="avaliador-{{ $avaliador->id }}" class="mr-2">
+                    <label for="avaliador-{{ $avaliador->id }}" class="text-gray-900">{{ $avaliador->name }}</label>
+                </div>
                 @endforeach
-            </select>
+            </div>
         </div>
 
         <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-5 py-2.5 text-center">Enviar</button>

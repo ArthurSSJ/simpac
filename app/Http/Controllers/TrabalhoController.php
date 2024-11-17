@@ -55,8 +55,10 @@ class TrabalhoController extends Controller
     {
         $trabalho = Trabalho::findOrFail($id);
         $avaliadores = User::where('role', 'avaliador')->get();
-        $avaliadoresSelecionados = $trabalho->avaliadores->pluck('id')->toArray(); // IDs dos avaliadores já atribuídos
-        return view('trabalhos.edit', compact('trabalho', 'avaliadores', 'avaliadoresSelecionados'));
+        $avaliadoresSelecionados = $trabalho->avaliadores->pluck('id')->toArray();
+
+        // Ajuste para o caminho da view correta:
+        return view('admin.alterar-trabalho', compact('trabalho', 'avaliadores', 'avaliadoresSelecionados'));
     }
 
     // Atualiza os dados do trabalho
