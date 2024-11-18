@@ -17,8 +17,18 @@
     </div>
 
 
-    @if(session('success'))
-    <div class="mb-4 text-green-600">{{ session('success') }}</div>
+    @if (session('success'))
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+        {{ session('success') }}
+    </div>
+    @elseif (session('error'))
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        {{ session('error') }}
+    </div>
+    @elseif (session('warning'))
+    <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-4">
+        {{ session('warning') }}
+    </div>
     @endif
 
     <table class="min-w-full divide-y divide-gray-200">

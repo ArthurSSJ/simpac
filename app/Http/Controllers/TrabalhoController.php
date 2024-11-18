@@ -32,7 +32,7 @@ class TrabalhoController extends Controller
             'protocolo' => 'required|string|unique:trabalhos',
             'curso' => 'required|string',
             'modelo_avaliativo' => 'nullable|string',
-            'avaliadores' => 'array' // validação para os IDs dos avaliadores
+            'avaliadores' => 'array'
         ]);
 
         $trabalho = new Trabalho();
@@ -41,10 +41,11 @@ class TrabalhoController extends Controller
         $trabalho->protocolo = $request->protocolo;
         $trabalho->curso = $request->curso;
         $trabalho->modelo_avaliativo = $request->modelo_avaliativo;
+        $trabalho->media_final = null; // Começa com null
         $trabalho->save();
 
         if ($request->has('avaliadores')) {
-            $trabalho->avaliadores()->sync($request->avaliadores); // Atribui avaliadores ao trabalho
+            $trabalho->avaliadores()->sync($request->avaliadores);
         }
 
         return redirect()->route('trabalho.index')->with('success', 'Trabalho criado e avaliadores atribuídos com sucesso!');
@@ -69,22 +70,26 @@ class TrabalhoController extends Controller
         $request->validate([
             'titulo' => 'required|string|max:255',
             'resumo' => 'required|string',
+            'protocolo' => 'required|string',
+            'curso' => 'required|string',
             'modelo_avaliativo' => 'nullable|string',
             'avaliadores' => 'array'
         ]);
 
         $trabalho->titulo = $request->titulo;
         $trabalho->resumo = $request->resumo;
+        $trabalho->protocolo = $request->protocolo;
+        $trabalho->curso = $request->curso;
         $trabalho->modelo_avaliativo = $request->modelo_avaliativo;
+        // Mantém a média existente
         $trabalho->save();
 
         if ($request->has('avaliadores')) {
-            $trabalho->avaliadores()->sync($request->avaliadores); // Atualiza os avaliadores atribuídos
+            $trabalho->avaliadores()->sync($request->avaliadores);
         }
 
         return redirect()->route('trabalho.index')->with('success', 'Trabalho atualizado com sucesso!');
     }
-
     public function destroy($id)
     {
         $trabalho = Trabalho::findOrFail($id);

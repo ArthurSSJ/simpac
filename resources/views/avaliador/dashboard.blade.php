@@ -6,16 +6,6 @@
     </h2>
 </x-slot>
 
-<!-- <div class="">
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="p-6 text-gray-900 text-2xl sm:text-3xl font-semibold underline decoration-4 decoration-blue-500">
-                {{ __("Olá, " . auth()->user()->name . "!") }}
-            </div>
-        </div>
-    </div>
-</div> -->
-
 <div class="container m-auto py-4 flex flex-col justify-center items-center gap-6">
 
     <div class="container m-auto max-w-2xl py-4 sm:py-12 px-2 sm:px-4">

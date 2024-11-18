@@ -7,19 +7,27 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Trabalho;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Avaliacao;
+use App\Models\Avaliacoes;
 
 class AvaliadorController extends Controller
 {
     public function listarTrabalhosAtribuidos()
     {
         $avaliadorId = Auth::id();
-        // Obtenha os trabalhos do avaliador
+
+        // Obtenha os trabalhos atribuídos ao avaliador
         $trabalhos = Trabalho::whereHas('avaliadores', function ($query) use ($avaliadorId) {
             $query->where('avaliador_id', $avaliadorId);
-        })->get();
+        })->get();  // Isso deve retornar uma coleção de objetos
 
-        // Retorna apenas os dados
+        // Adiciona um campo 'avaliado' para cada trabalho
+        foreach ($trabalhos as $trabalho) {
+            $trabalho->avaliado = Avaliacoes::where('trabalho_id', $trabalho->id)
+                ->where('avaliador_id', $avaliadorId)
+                ->exists();
+        }
+
+        // Retorne os trabalhos para a view
         return $trabalhos;
     }
 
@@ -33,24 +41,39 @@ class AvaliadorController extends Controller
         // Verifica se o trabalho existe
         $trabalho = Trabalho::findOrFail($id);
 
-        // Valida os dados enviados
+        // Valida o campo de nota
         $request->validate([
-            'comentarios' => 'required|string',
-            'notas' => 'required|array',
-            'notas.*' => 'numeric|min:0|max:10' // Valida as notas individualmente
+            'nota' => 'required|numeric|min:0|max:10' // Valida a nota total
         ]);
 
-        // Salvar a avaliação na tabela avaliacoes
-        $avaliacao = new Avaliacao();
+        // Obtém o ID do avaliador autenticado
+        $avaliadorId = Auth::id();
+
+        // Verifica se o avaliador já avaliou este trabalho
+        $jaAvaliou = Avaliacoes::where('trabalho_id', $trabalho->id)
+            ->where('avaliador_id', $avaliadorId)
+            ->exists();
+
+        if ($jaAvaliou) {
+            return redirect()->back()->withErrors('Você já avaliou este trabalho.');
+        }
+
+        // Salva a nova avaliação no banco de dados
+        $avaliacao = new Avaliacoes();
         $avaliacao->trabalho_id = $trabalho->id;
-        $avaliacao->avaliador_id = Auth::id(); // ID do avaliador autenticado
-        $avaliacao->comentarios = $request->comentarios;
-        $avaliacao->notas = json_encode($request->notas); // Salva as notas como JSON
-        $avaliacao->media = array_sum($request->notas) / count($request->notas); // Calcula a média
+        $avaliacao->avaliador_id = $avaliadorId;
+        $avaliacao->nota = $request->nota;
         $avaliacao->save();
 
-        // Redirecionar com mensagem de sucesso
-        return redirect()->route('avaliador.listar-trabalhos')->with('success', 'Avaliação submetida com sucesso!');
+        // Calcula a nova média final do trabalho
+        $mediaFinal = Avaliacoes::where('trabalho_id', $id)->avg('nota');
+
+        // Atualiza o campo media_final no trabalho
+        $trabalho->media_final = $mediaFinal;
+        $trabalho->save();
+
+        // Redireciona com mensagem de sucesso
+        return redirect()->route('trabalho.index')->with('success', 'Avaliação submetida com sucesso!');
     }
 }
 

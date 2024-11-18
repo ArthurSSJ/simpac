@@ -16,6 +16,7 @@ class Trabalho extends Model
         'protocolo',
         'curso',
         'modelo_avaliativo',
+        'media_final'
     ];
 
     protected static function boot()
@@ -27,9 +28,9 @@ class Trabalho extends Model
     // Relacionamento com as avaliações
     public function avaliacoes()
     {
-        return $this->hasMany(Avaliacao::class);
+        return $this->hasMany(Avaliacoes::class);
     }
-    
+
     // Relacionamento com o usuário avaliador
     public function avaliadores()
     {

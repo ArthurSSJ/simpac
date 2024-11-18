@@ -23,29 +23,29 @@
         <div class="mb-5">
             <label for="curso" class="block font-medium text-gray-900">Curso</label>
             <select name="curso" id="curso" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
-                <option value="" class="">Selecione um curso</option>
-                <option value="adm" class="">Administração</option>
-                <option value="ads" class="">Análise e Desenvolvimento de Sistemas</option>
-                <option value="arq" class="">Arquitetura e Urbanismo</option>
-                <option value="ciencias" class="">Ciências Contábeis</option>
-                <option value="engenharia" class="">Engenharia Civil</option>
-                <option value="direito" class="">Direito</option>
-                <option value="engenharia" class="">Engenharia Ambiental</option>
-                <option value="engenharia" class="">Engenharia de Computação</option>
-                <option value="engenharia" class="">Engenharia Química</option>
-                <option value="enfermagem" class="">Enfermagem</option>
-                <option value="farmacia" class="">Farmácia</option>
-                <option value="fisioterapia" class="">Fisioterapia</option>
-                <option value="nutricao" class="">Nutrição</option>
-                <option value="odontologia" class="">Odontologia</option>
-                <option value="psicologia" class="">Psicologia</option>
-                <option value="med_veterinaria" class="">Medicina Veterinária</option>
+                <option value="">Selecione um curso</option>
+                <option value="adm">Administração</option>
+                <option value="ads">Análise e Desenvolvimento de Sistemas</option>
+                <option value="arq">Arquitetura e Urbanismo</option>
+                <option value="cco">Ciências Contábeis</option>
+                <option value="civ">Engenharia Civil</option>
+                <option value="dir">Direito</option>
+                <option value="eab">Engenharia Ambiental</option>
+                <option value="eco">Engenharia de Computação</option>
+                <option value="enf">Enfermagem</option>
+                <option value="enq">Engenharia Química</option>
+                <option value="far">Farmácia</option>
+                <option value="fisio">Fisioterapia</option>
+                <option value="nut">Nutrição</option>
+                <option value="odo">Odontologia</option>
+                <option value="psi">Psicologia</option>
+                <option value="vet">Medicina Veterinária</option>
             </select>
         </div>
 
         <div class="mb-5">
             <label for="modelo_avaliativo" class="block font-medium text-gray-900">Modelo Avaliativo</label>
-            <select id="modelo_avaliativo" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
+            <select name="modelo_avaliativo" id="modelo_avaliativo" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
                 <option value="" class="">Selecione um modelo</option>
                 <option value="poster" class="">Pôster</option>
                 <option value="oral" class="">Oral</option>
