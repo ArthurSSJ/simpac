@@ -26,29 +26,42 @@ class TrabalhoController extends Controller
     // Salva um novo trabalho
     public function store(Request $request)
     {
-        $request->validate([
-            'titulo' => 'required|string|max:255',
-            'resumo' => 'required|string',
-            'protocolo' => 'required|string|unique:trabalhos',
-            'curso' => 'required|string',
-            'modelo_avaliativo' => 'nullable|string',
-            'avaliadores' => 'array'
-        ]);
 
-        $trabalho = new Trabalho();
-        $trabalho->titulo = $request->titulo;
-        $trabalho->resumo = $request->resumo;
-        $trabalho->protocolo = $request->protocolo;
-        $trabalho->curso = $request->curso;
-        $trabalho->modelo_avaliativo = $request->modelo_avaliativo;
-        $trabalho->media_final = null; // Começa com null
-        $trabalho->save();
+        try {
+            $request->validate([
+                'titulo' => 'required|string|max:255',
+                'resumo' => 'required|string',
+                'protocolo' => 'required|string|unique:trabalhos',
+                'curso' => 'required|string',
+                'modelo_avaliativo' => 'nullable|string',
+                'avaliadores' => 'array'
+            ]);
 
-        if ($request->has('avaliadores')) {
-            $trabalho->avaliadores()->sync($request->avaliadores);
+            // Resto do código...
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->back()->withInput()->withErrors($e->errors());
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->withErrors(['error' => $e->getMessage()]);
         }
 
-        return redirect()->route('trabalho.index')->with('success', 'Trabalho criado e avaliadores atribuídos com sucesso!');
+        try {
+            $trabalho = new Trabalho();
+            $trabalho->titulo = $request->titulo;
+            $trabalho->resumo = $request->resumo;
+            $trabalho->protocolo = $request->protocolo;
+            $trabalho->curso = $request->curso;
+            $trabalho->modelo_avaliativo = $request->modelo_avaliativo;
+            $trabalho->media_final = null; // Começa com null
+            $trabalho->save();
+
+            if ($request->has('avaliadores')) {
+                $trabalho->avaliadores()->sync($request->avaliadores);
+            }
+
+            return redirect()->route('trabalho.index')->with('success', 'Trabalho criado e avaliadores atribuídos com sucesso!');
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
     // Exibe o formulário para editar um trabalho

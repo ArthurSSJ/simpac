@@ -5,7 +5,15 @@
     <div class="text-center font-semibold text-blue-950">
         <h2 class="text-2xl">Criar trabalhos</h2>
     </div>
-
+    @if (session('error'))
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        {{ session('error') }}
+    </div>
+    @elseif (session('warning'))
+    <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-4">
+        {{ session('warning') }}
+    </div>
+    @endif
     <form class="max-w-sm mx-auto" method="POST" action="{{ route('trabalhos.store') }}">
         @csrf
         <div class="mb-5">
