@@ -36,4 +36,10 @@ class Trabalho extends Model
     {
         return $this->belongsToMany(User::class, 'trabalho_avaliadores', 'trabalho_id', 'avaliador_id');
     }
+
+    public function simposio()
+    {
+        return $this->belongsTo(Simposio::class);
+    }
+
 }

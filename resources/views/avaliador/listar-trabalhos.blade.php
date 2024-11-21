@@ -45,7 +45,7 @@
                         <span class="text-red-600 font-semibold">Pendente</span>
                         @endif
                     </td>
-                    <td class="border py-2 text-center w-24">{{ $trabalho->media_final }}</td>
+                    <td class="border py-2 text-center w-24">{{ number_format($trabalho->media_final, 2, ',', '.') }}</td>
                     <td class="border py-2 text-center w-20">
                         @if ($trabalho->avaliado)
                         <button class="bg-gray-300 text-gray-600 px-4 py-2 rounded cursor-not-allowed" disabled>

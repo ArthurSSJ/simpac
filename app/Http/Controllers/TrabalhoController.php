@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Trabalho;
 use app\Models\User;
 use Illuminate\Support\Str;
+use App\Models\Simposio;
 
 class TrabalhoController extends Controller
 {
@@ -19,14 +20,21 @@ class TrabalhoController extends Controller
     // Exibe o formulário de criação de um novo trabalho
     public function create()
     {
+        $simposios = Simposio::where('finalizado', false)->get();
+
+        if ($simposios->isEmpty()) {
+            return redirect()->back()->withErrors(['error' => 'Nenhum simpósio ativo. Crie um simpósio antes de adicionar trabalhos.']);
+        }
+
         $avaliadores = User::where('role', 'avaliador')->get();
-        return view('admin.criar-trabalho', compact('avaliadores'));
+        return view('admin.criar-trabalho', compact('simposios', 'avaliadores'));
     }
 
     // Salva um novo trabalho
-    public function store(Request $request)
+    public function store(Request $request, $simposioId)
     {
 
+        $simposio = Simposio::findOrFail($simposioId);
         try {
             $request->validate([
                 'titulo' => 'required|string|max:255',
@@ -34,7 +42,8 @@ class TrabalhoController extends Controller
                 'protocolo' => 'required|string|unique:trabalhos',
                 'curso' => 'required|string',
                 'modelo_avaliativo' => 'nullable|string',
-                'avaliadores' => 'array'
+                'avaliadores' => 'array',
+                'simposio_id' => 'required|exists:simposios,id'
             ]);
 
             // Resto do código...
@@ -51,7 +60,8 @@ class TrabalhoController extends Controller
             $trabalho->protocolo = $request->protocolo;
             $trabalho->curso = $request->curso;
             $trabalho->modelo_avaliativo = $request->modelo_avaliativo;
-            $trabalho->media_final = null; // Começa com null
+            $trabalho->media_final = $request->has('media_final') ? number_format($request->media_final, 2, '.', '') : null;
+            $trabalho->simposio_id = $simposio->id;
             $trabalho->save();
 
             if ($request->has('avaliadores')) {

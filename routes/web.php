@@ -5,7 +5,9 @@ use App\Http\Controllers\TrabalhoController;
 use App\Http\Controllers\AvaliadorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SimposioController;
 use App\Models\Trabalho;
+use App\Models\Simposio;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -196,22 +198,22 @@ Route::delete('/trabalhos/{trabalho}/excluir', function ($id) {
     return abort(403);
 })->name('trabalhos.destroy');
 
-// Rota para atribuir avaliadores a um trabalho
-Route::get('/trabalhos/{trabalho}/atribuir-avaliadores', function ($id) {
-    if (Auth::check() && Auth::user()->role === 'admin') {
-        $trabalhoController = new TrabalhoController();
-        return $trabalhoController->assignAvaliadores(new Request(), $id);
-    }
-    return abort(403);
-})->name('trabalhos.assign');
+// // Rota para atribuir avaliadores a um trabalho
+// Route::get('/trabalhos/{trabalho}/atribuir-avaliadores', function ($id) {
+//     if (Auth::check() && Auth::user()->role === 'admin') {
+//         $trabalhoController = new TrabalhoController();
+//         return $trabalhoController->assignAvaliadores(new Request(), $id);
+//     }
+//     return abort(403);
+// })->name('trabalhos.assign');
 
-Route::post('/trabalhos/{trabalho}/atribuir-avaliadores', function (Request $request, $id) {
-    if (Auth::check() && Auth::user()->role === 'admin') {
-        $trabalhoController = new TrabalhoController();
-        return $trabalhoController->assignAvaliadores($request, $id);
-    }
-    return abort(403);
-});
+// Route::post('/trabalhos/{trabalho}/atribuir-avaliadores', function (Request $request, $id) {
+//     if (Auth::check() && Auth::user()->role === 'admin') {
+//         $trabalhoController = new TrabalhoController();
+//         return $trabalhoController->assignAvaliadores($request, $id);
+//     }
+//     return abort(403);
+// });
 
 
 
@@ -239,6 +241,58 @@ Route::post('/avaliador/trabalhos/{trabalho}/avaliar', function (Request $reques
 
 
 
+
+// Rota para lista de simposios
+Route::get('/simposios', function () {
+    if (Auth::check() && Auth::user()->role === 'admin') {
+        $simposios = Simposio::all();
+        return view('admin.listar-simposios', compact('simposios'));
+    }
+    return abort(403);
+})->name('simposios.index');
+
+// Rota para criar um novo simposio
+Route::get('/simposios/criar', function () {
+    if (Auth::check() && Auth::user()->role === 'admin') {
+        return view('admin.criar-simposio');
+    }
+    return abort(403);
+})->name('simposios.create');
+
+Route::post('/simposios/criar', function (Request $request) {
+    if (Auth::check() && Auth::user()->role === 'admin') {
+        $simposioController = new SimposioController();
+        return $simposioController->store($request);
+    }
+    return abort(403);
+})->name('simposios.store');
+
+// Rota para exibir o formulário de edição de um simposio existente
+Route::get('/simposios/{simposio}/editar', function ($id) {
+    if (Auth::check() && Auth::user()->role === 'admin') {
+        $simposioController = new SimposioController();
+        return $simposioController->edit($id); // Chama o método edit, que já retorna a view correta
+    }
+    return abort(403); // Retorna erro 403 se o usuário não for admin
+})->name('simposios.edit');
+
+// Rota para atualizar o simposio existente
+Route::post('/simposios/{simposio}/editar', function (Request $request, $id) {
+    if (Auth::check() && Auth::user()->role === 'admin') {
+        $simposioController = new SimposioController();
+        return $simposioController->update($request, $id);
+    }
+    return abort(403); // Retorna erro 403 se o usuário não for admin
+})->name('simposios.update');
+
+// Rota para finalizar um simposio
+Route::get('/simposios/{simposio}/finalizar', function ($id) {
+    if (Auth::check() && Auth::user()->role === 'admin') {
+        $simposioController = new SimposioController();
+        return $simposioController->finalizar($id);
+    }
+    return abort(403); // Retorna erro 403 se o usuário não for admin
+})->name('simposios.finalizar');
 
 
 require __DIR__ . '/auth.php';
