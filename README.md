@@ -6,7 +6,7 @@ O NUPEX (Núcleo de Apoio à Pesquisa e Extensão da Univiçosa), responsável p
 
  2. Tecnologias Utilizadas
 
-- Framework: CodeIgniter 4
+- Framework: Laravel
 - Banco de Dados: MySQL, gerenciado via PHPMyAdmin
 - Frontend**: HTML, CSS (Tailwind CSS)
 
