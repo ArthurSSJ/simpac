@@ -33,25 +33,52 @@
 
 
     <!-- Grade de Quadrados -->
-    @if($simposios->isEmpty())
+    @if($simposios->where('finalizado', false)->count() == 0 && $simposios->where('finalizado', true)->count() == 0)
     <p class="text-gray-600">Nenhum simposio iniciado.</p>
     @else
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        @foreach ($simposios as $simposio)
-        <a href="{{ route('simposios.edit', $simposio->id) }}">
-            <div class="bg-white shadow-lg rounded-lg p-6">
-                <div class="border-b border-gray-300 mb-4">
-                    <img
-                        src="{{ $simposio->imagem ? asset('storage/' . $simposio->imagem) : asset('images/simposio-default.jpg') }}"
-                        alt="Imagem do Simpósio"
-                        class="w-full h-auto">
+    @if($simposios->where('finalizado', false)->count() > 0)
+    <div class="mb-8">
+        <h2 class="text-left text-xl uppercase font-semibold mb-4 text-gray-500">Simposio em Andamento</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            @foreach ($simposios->where('finalizado', false) as $simposio)
+            <a href="{{ route('simposios.edit', $simposio->id) }}">
+                <div class="bg-white shadow-lg rounded-lg p-6">
+                    <div class="border-b border-gray-300 mb-4">
+                        <img
+                            src="{{ $simposio->imagem ? asset('storage/' . $simposio->imagem) : asset('images/simposio-default.jpg') }}"
+                            alt="Imagem do Simpósio"
+                            class="w-full h-auto">
+                    </div>
+                    <h2 class="text-center text-xl font-bold mb-4">{{ $simposio->nome }}</h2>
+                    <p class="text-center text-gray-600 mb-4 font-semibold">{{ date('d/m/Y H:i', strtotime($simposio->inicio)) }}</p>
                 </div>
-                <h2 class="text-center text-xl font-bold mb-4">{{ $simposio->nome }}</h2>
-                <p class="text-center text-gray-600 mb-4 font-semibold">{{ date('d/m/Y H:i', strtotime($simposio->inicio)) }}</p>
-            </div>
-        </a>
-        @endforeach
+            </a>
+            @endforeach
+        </div>
     </div>
+    @endif
+
+    @if($simposios->where('finalizado', true)->count() > 0)
+    <div>
+        <h2 class="text-left text-xl uppercase font-semibold mb-4 text-gray-500">Simposios finalizados</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            @foreach ($simposios->where('finalizado', true) as $simposio)
+            <a href="{{ route('simposios.edit', $simposio->id) }}">
+                <div class="bg-white shadow-lg rounded-lg p-6">
+                    <div class="border-b border-gray-300 mb-4">
+                        <img
+                            src="{{ $simposio->imagem ? asset('storage/' . $simposio->imagem) : asset('images/simposio-default.jpg') }}"
+                            alt="Imagem do Simpósio"
+                            class="w-full h-auto">
+                    </div>
+                    <h2 class="text-center text-xl font-bold mb-4">{{ $simposio->nome }}</h2>
+                    <p class="text-center text-gray-600 mb-4 font-semibold">{{ date('d/m/Y H:i', strtotime($simposio->inicio)) }}</p>
+                </div>
+            </a>
+            @endforeach
+        </div>
+    </div>
+    @endif
     @endif
 </div>
 @endsection

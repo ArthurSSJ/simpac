@@ -20,13 +20,23 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('trabalho.index') }}" class="text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('trabalho.index') ? 'bg-gray-200 dark:bg-gray-700' : '' }}">
+                        <a href="{{ route('simposios.index') }}" class="text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('simposios.index') ? 'bg-gray-200 dark:bg-gray-700' : '' }}">
+                            {{ __('Simpósios') }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('trabalhos.all') }}" class="text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('trabalhos.all') ? 'bg-gray-200 dark:bg-gray-700' : '' }}">
                             {{ __('Trabalhos') }}
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('avaliadores.index') }}" class="text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('avaliadores.index') ? 'bg-gray-200 dark:bg-gray-700' : '' }}">
                             {{ __('Avaliadores') }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('cursos') }}" class="text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('cursos') ? 'bg-gray-200 dark:bg-gray-700' : '' }}">
+                            {{ __('Resultados') }}
                         </a>
                     </li>
                 </ul>
@@ -40,6 +50,11 @@
                     <li>
                         <a href="{{ route('trabalho.index') }}" class="text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('trabalho.index') ? 'bg-gray-200 dark:bg-gray-700' : '' }}">
                             {{ __('Trabalhos') }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('cursos') }}" class="text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('cursos') ? 'bg-gray-200 dark:bg-gray-700' : '' }}">
+                            {{ __('Resultados') }}
                         </a>
                     </li>
                 </ul>
@@ -65,9 +80,6 @@
 
                     <x-slot name="content">
                         @if(auth()->check())
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Perfil') }}
-                        </x-dropdown-link>
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
@@ -82,9 +94,6 @@
                         @else
                         <x-dropdown-link :href="route('login')">
                             {{ __('Login') }}
-                        </x-dropdown-link>
-                        <x-dropdown-link :href="route('register')">
-                            {{ __('Registrar') }}
                         </x-dropdown-link>
                         @endif
                     </x-slot>
@@ -105,6 +114,18 @@
 
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+        @if(auth()->check())
+        @if(Auth::user()->role === 'admin')
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('inicio')" :active="request()->routeIs('inicio')">
+                {{ __('Início') }}
+            </x-responsive-nav-link>
+        </div>
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('simposios.index')" :active="request()->routeIs('simposios.index')">
+                {{ __('Simposios') }}
+            </x-responsive-nav-link>
+        </div>
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('trabalho.index')" :active="request()->routeIs('trabalho.index')">
                 {{ __('Trabalhos') }}
@@ -115,15 +136,35 @@
                 {{ __('Avaliadores') }}
             </x-responsive-nav-link>
         </div>
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('cursos')" :active="request()->routeIs('cursos')">
+                {{ __('Resultados') }}
+            </x-responsive-nav-link>
+        </div>
+        @elseif(Auth::user()->role === 'avaliador')
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('inicio')" :active="request()->routeIs('inicio')">
+                {{ __('Início') }}
+            </x-responsive-nav-link>
+        </div>
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('trabalho.index')" :active="request()->routeIs('trabalho.index')">
+                {{ __('Avaliar') }}
+            </x-responsive-nav-link>
+        </div>
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('cursos')" :active="request()->routeIs('cursos')">
+                {{ __('Resultados') }}
+            </x-responsive-nav-link>
+        </div>
+        @endif
+        @endif
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
 
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">

@@ -3,7 +3,7 @@
 <div class="container m-auto py-4 flex flex-col justify-center items-center gap-6">
 
     <div class="text-center font-semibold text-blue-950">
-        <h2 class="text-2xl">Criar trabalhos</h2>
+        <h2 class="text-2xl">Criar trabalho</h2>
     </div>
     @if (session('error'))
     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
@@ -14,7 +14,7 @@
         {{ session('warning') }}
     </div>
     @endif
-    <form class="max-w-sm mx-auto" method="POST" action="{{ route('trabalhos.store') }}">
+    <form class="max-w-sm mx-auto" method="POST" action="{{ route('trabalhos.store', $simposio->id) }}">
         @csrf
         <div class="mb-5">
             <label for="titulo" class="block font-medium text-gray-900">Título</label>

@@ -127,7 +127,13 @@ Route::get('/login/avaliador', [AuthController::class, 'showAvaliadorLogin'])->n
 
 
 
+Route::get('/trabalhos/all', [TrabalhoController::class, 'all'])->name('trabalhos.all');
 
+Route::get('/resultados', [TrabalhoController::class, 'resultados'])->name('resultados');
+
+Route::get('/cursos', function () {
+    return view('cursos');
+})->name('cursos');
 
 
 Route::get('/trabalhos', function () {
@@ -151,22 +157,36 @@ Route::get('/trabalhos/{trabalho}/avaliar', function ($id) {
     return abort(403);
 })->name('trabalho.avaliar');
 
+Route::get('/trabalho/{id}/detalhes', function ($id) {
+    $trabalho = Trabalho::findOrFail($id);
 
-// Rota para criar um novo trabalho
-Route::get('/trabalhos/criar', function () {
+    return response()->json([
+        'titulo' => $trabalho->titulo,
+        'resumo' => $trabalho->resumo,
+        'curso' => $trabalho->curso,
+        'protocolo' => $trabalho->protocolo,
+        'modelo_avaliativo' => $trabalho->modelo_avaliativo,
+        'media_final' => number_format($trabalho->media_final, 2, ',', '.'),
+    ]);
+});
+
+
+
+
+// Rota para exibir o formulário de criação de trabalho associado a um simpósio
+Route::get('/simposios/{simposio}/trabalhos/criar', function ($simposioId) {
     if (Auth::check() && Auth::user()->role === 'admin') {
         $trabalhoController = new TrabalhoController();
-        $avaliadores = User::where('role', 'avaliador')->get();
-
-        return view('admin.criar-trabalho', compact('avaliadores'));
+        return $trabalhoController->create($simposioId); // Passando simposioId para o controller
     }
     return abort(403);
 })->name('trabalho.create');
 
-Route::post('/trabalhos/criar', function (Request $request) {
+// Rota POST para salvar o trabalho e associá-lo ao simpósio
+Route::post('/simposios/{simposio}/trabalhos', function (Request $request, $simposioId) {
     if (Auth::check() && Auth::user()->role === 'admin') {
         $trabalhoController = new TrabalhoController();
-        return $trabalhoController->store($request);
+        return $trabalhoController->store($request, $simposioId);
     }
     return abort(403);
 })->name('trabalhos.store');
@@ -237,7 +257,7 @@ Route::post('/avaliador/trabalhos/{trabalho}/avaliar', function (Request $reques
         return $avaliadorController->submeterAvaliacao($request, $id);
     }
     return abort(403);
-})->name('avaliador.trabalho.avaliar');
+})->name('avaliador.trabalho.submeter');
 
 
 
@@ -286,7 +306,7 @@ Route::post('/simposios/{simposio}/editar', function (Request $request, $id) {
 })->name('simposios.update');
 
 // Rota para finalizar um simposio
-Route::get('/simposios/{simposio}/finalizar', function ($id) {
+Route::post('/simposios/{simposio}/finalizar', function ($id) {
     if (Auth::check() && Auth::user()->role === 'admin') {
         $simposioController = new SimposioController();
         return $simposioController->finalizar($id);

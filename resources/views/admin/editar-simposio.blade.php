@@ -8,13 +8,14 @@
             <div class="flex flex-col justify-between items-center">
                 <h1 class="text-4xl font-bold text-[#2e4a67] mb-1">SIMPAC</h1>
                 <div class="border-t-2 border-black w-24 mx-auto"></div>
-                <p class="text-lg text-[#2e4a67">Trabalhos</p>
+                <p class="text-xl uppercase text-[#2e4a67">{{ $simposio->nome }}</p>
             </div>
+            @if(!$simposio->finalizado)
             <button id="editarSimposioBtn" class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 focus:outline-none">
                 Editar Simpósio
             </button>
+            @endif
         </div>
-
         <img src="{{asset('images/simposio-default.jpg')}}" alt="" class="w-2/5">
 
 
@@ -58,14 +59,12 @@
     <div class="container m-auto max-w-2xl py-4 sm:py-12 px-2 sm:px-4">
         <!-- Título e Linha de Separação -->
         <div class="flex justify-between items-center mb-8">
-            <div class="flex flex-col justify-between items-center">
-                <h1 class="text-4xl font-bold text-[#2e4a67] mb-1">SIMPAC</h1>
-                <div class="border-t-2 border-black w-24 mx-auto"></div>
-                <p class="text-lg text-[#2e4a67">Trabalhos</p>
-            </div>
+                <p class="text-2xl font-semibold text-[#2e4a67]">Trabalhos</p>
+            @if (!$simposio->finalizado)
             <div class="">
-                <a href="{{ route('trabalhos.store', $simposio->id) }}" class="bg-[#2e4a67] text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-[#2e4a67]/90">Criar Trabalho</a>
+                <a href="{{ route('trabalho.create', $simposio->id) }}" class="bg-[#2e4a67] text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-[#2e4a67]/90">Criar Trabalho</a>
             </div>
+            @endif
         </div>
         @if (session('success'))
         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
@@ -81,7 +80,7 @@
         </div>
         @endif
 
-        @if($trabalhos->isEmpty())
+        @if($simposio->trabalhos->isEmpty())
         <p class="text-gray-600">Nenhum trabalho atribuido a este simpósio.</p>
         @else
         <table class="table-auto w-full border">
@@ -93,7 +92,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($trabalhos as $trabalho)
+                @foreach ($simposio->trabalhos as $trabalho)
                 <tr>
                     <td class="border-y px-4 py-4"><span class="line-clamp-1 text-wrap">{{ $trabalho->titulo }}</span></td>
                     <td class="border-y py-2 text-center w-24">{{ $trabalho->media_final }}</td>
@@ -109,13 +108,48 @@
         @endif
     </div>
     <!-- Botão para finalizar simpósio -->
+    @if(!$simposio->finalizado)
     <div class="mt-8">
-        <form action="{{ route('simposios.finalizar', $simposio->id) }}" method="POST">
-            @csrf
-            @method('POST')
-            <button type="submit" class="w-full bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Finalizar Simpósio</button>
-        </form>
+        <button id="finalizarSimposioBtn" class="w-full bg-red-600 text-white px-4 py-3 rounded hover:bg-red-700">
+            Finalizar Simpósio
+        </button>
+
+        <div id="finalizarSimposioModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+            <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md relative">
+                <button id="fecharFinalizarModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 focus:outline-none text-xl">
+                    
+                </button>
+                <h3 class="text-xl font-bold mb-4">Tem certeza que deseja finalizar o simpósio?</h3>
+                <p class="mb-4">Afinalização do simpósio irá finalizar todos os trabalhos associados a ele e não poderá ser revertida.</p>
+                <form action="{{ route('simposios.finalizar', $simposio->id) }}" method="POST">
+                    @csrf
+                    @method('POST')
+                    <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Sim, finalizar</button>
+                    <button id="cancelarFinalizarModal" type="button" class="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300">Cancelar</button>
+                </form>
+            </div>
+        </div>
     </div>
+    @endif
+
+    <script>
+        const finalizarSimposioBtn = document.getElementById('finalizarSimposioBtn');
+        const finalizarSimposioModal = document.getElementById('finalizarSimposioModal');
+        const fecharFinalizarModal = document.getElementById('fecharFinalizarModal');
+        const cancelarFinalizarModal = document.getElementById('cancelarFinalizarModal');
+
+        finalizarSimposioBtn.addEventListener('click', () => {
+            finalizarSimposioModal.classList.remove('hidden');
+        });
+
+        fecharFinalizarModal.addEventListener('click', () => {
+            finalizarSimposioModal.classList.add('hidden');
+        });
+
+        cancelarFinalizarModal.addEventListener('click', () => {
+            finalizarSimposioModal.classList.add('hidden');
+        });
+    </script>
 </div>
 
 <!-- Script para abrir e fechar o modal -->

@@ -42,11 +42,13 @@ class SimposioController extends Controller
     }
     public function edit($id)
     {
-        $simposio = Simposio::findOrFail($id); // Obtém o simpósio pelo ID
-        $avaliadores = User::where('role', 'avaliador')->get();
-        $trabalhos = $simposio->trabalhos->load('avaliadores'); // Carrega os trabalhos e seus avaliadores
+        // Carrega o simpósio com os trabalhos e seus avaliadores
+        $simposio = Simposio::with('trabalhos.avaliadores')->findOrFail($id);
 
-        return view('admin.editar-simposio', compact('simposio', 'avaliadores', 'trabalhos'));
+        // Obtém todos os avaliadores disponíveis
+        $avaliadores = User::where('role', 'avaliador')->get();
+
+        return view('admin.editar-simposio', compact('simposio', 'avaliadores'));
     }
 
     public function update(Request $request, $id)

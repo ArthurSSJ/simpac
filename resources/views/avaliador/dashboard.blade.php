@@ -18,9 +18,7 @@
             <div class="flex flex-col gap-8 w-full max-w-80 px-4">
                 <a href="{{ route('trabalho.index') }}" class="bg-blue-900 w-full px-2 py-2 rounded-2xl text-lg text-white font-semibold hover:bg-blue-800 text-center">Avaliar</a>
 
-                <a href="{{ route('trabalho.index') }}" class="bg-blue-900 w-full px-2 py-2 rounded-2xl text-lg text-white font-semibold hover:bg-blue-800 text-center">Trabalhos avaliados</a>
-
-                <a href="{{ route('resultados') }}" class="bg-blue-900 w-full px-2 py-2 rounded-2xl text-lg text-white font-semibold hover:bg-blue-800 text-center">Resultados</a>
+                <a href="{{ route('cursos') }}" class="bg-blue-900 w-full px-2 py-2 rounded-2xl text-lg text-white font-semibold hover:bg-blue-800 text-center">Resultados</a>
 
                 <a href="{{ route('home') }}" class="bg-blue-900 w-full px-2 py-2 rounded-2xl text-lg text-white font-semibold hover:bg-blue-800 text-center">Página inicial</a>
             </div>

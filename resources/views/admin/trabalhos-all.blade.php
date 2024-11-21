@@ -123,8 +123,10 @@
              <tr>
                  <td class="border-y px-4 py-4"><span class="line-clamp-1 text-wrap">{{ $trabalho->titulo }}</span></td>
                  <td class="border-y py-2 text-center w-24">{{ $trabalho->media_final }}</td>
-                 <td class="border py-2 text-center w-20" onclick="openModal({{ $trabalho->id }})">
-                     <span class="bg-green-300 px-2 py-2 rounded cursor-pointer hover:bg-green-400">Detalhes</span>
+                 <td class="border-y text-center w-20">
+                     <a href="{{ route('trabalhos.edit', $trabalho->id) }}" class="bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded">
+                         Editar
+                     </a>
                  </td>
              </tr>
              @endforeach
@@ -136,57 +138,6 @@
      </div>
      @endif
  </div>
- <!-- Modal de Detalhes do Trabalho -->
- <div id="modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden justify-center items-center z-50 flex">
-     <div class="bg-white p-6 rounded-lg w-96 m-auto">
-         <h3 class="text-xl font-semibold mb-4">Detalhes do Trabalho</h3>
-
-         <div class="overflow-x-hidden">
-             <p class="mb-3"><strong>Título:</strong> <span id="modal-titulo"></span></p>
-             <div class="w-full">
-                 <p class="mb-5 text-wrap break-words"><strong>Resumo:</strong> <span id="modal-resumo" class="text-wrap"></span></p>
-             </div>
-             <div class="grid grid-cols-2 gap-y-3">
-                 <p class="flex flex-col uppercase"><strong class="text-sm">Curso:</strong> <span id="modal-curso"></span></p>
-                 <p class="flex flex-col uppercase"><strong class="text-sm">Protocolo:</strong> <span id="modal-protocolo"></span></p>
-                 <p class="flex flex-col uppercase"><strong class="text-sm">Modelo Avaliativo:</strong><span id="modal-modelo_avaliativo"></span></p>
-                 <p class="flex flex-col uppercase"><strong class="text-sm">Média Final:</strong> <span id="modal-media_final"></span></p>
-             </div>
-         </div>
-
-         <div class="mt-4 w-full flex justify-end">
-             <button onclick="closeModal()" class="bg-red-500 text-white px-4 py-2 rounded">
-                 Fechar
-             </button>
-         </div>
-     </div>
- </div>
- <script>
-     // Função para abrir o modal e preencher os dados do trabalho
-     function openModal(trabalhoId) {
-         // Faz uma requisição para pegar as informações do trabalho
-         fetch(`/trabalho/${trabalhoId}/detalhes`)
-             .then(response => response.json())
-             .then(data => {
-                 // Preenche o modal com os dados
-                 document.getElementById('modal-titulo').innerText = data.titulo;
-                 document.getElementById('modal-resumo').innerText = data.resumo;
-                 document.getElementById('modal-curso').innerText = data.curso;
-                 document.getElementById('modal-protocolo').innerText = data.protocolo;
-                 document.getElementById('modal-modelo_avaliativo').innerText = data.modelo_avaliativo;
-                 document.getElementById('modal-media_final').innerText = data.media_final;
-
-                 // Exibe o modal
-                 document.getElementById('modal').classList.remove('hidden');
-             })
-             .catch(error => console.error('Erro ao carregar os detalhes do trabalho:', error));
-     }
-
-     // Função para fechar o modal
-     function closeModal() {
-         document.getElementById('modal').classList.add('hidden');
-     }
- </script>
  <script>
      function abrirModalFiltros() {
          document.getElementById('modal-filtros').classList.remove('hidden');

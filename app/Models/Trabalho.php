@@ -16,7 +16,10 @@ class Trabalho extends Model
         'protocolo',
         'curso',
         'modelo_avaliativo',
-        'media_final'
+        'media_final',
+        'simposio_id',
+        'created_at',
+        'updated_at',
     ];
 
     protected static function boot()

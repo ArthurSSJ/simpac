@@ -21,7 +21,7 @@
     @include('layouts.navigation')
 
     <!-- Page Content -->
-    <main>
+    <main class="my-8 sm:my-14 md:my-20">
         @yield('content')
     </main>
 

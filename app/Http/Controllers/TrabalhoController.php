@@ -10,6 +10,71 @@ use App\Models\Simposio;
 
 class TrabalhoController extends Controller
 {
+    public function all(Request $request)
+    {
+        $query = Trabalho::query();
+
+        // Filtro por título
+        if ($request->filled('titulo')) {
+            $query->where('titulo', 'like', '%' . $request->titulo . '%');
+        }
+
+        // Filtro por curso
+        if ($request->filled('curso')) {
+            $query->where('curso', 'like', '%' . $request->curso . '%');
+        }
+
+        // Filtro por simpósio
+        if ($request->filled('simposio')) {
+            $query->whereHas('simposio', function ($q) use ($request) {
+                $q->where('nome', 'like', '%' . $request->simposio . '%');
+            });
+        }
+
+        // Ordenação
+        if (in_array($request->get('ordem'), ['asc', 'desc'])) {
+            $query->orderBy('media_final', $request->ordem);
+        }
+
+        // Paginação
+        $trabalhos = $query->paginate(5)->withQueryString();
+
+        return view('admin.trabalhos-all', compact('trabalhos'));
+    }
+
+    public function resultados(Request $request)
+    {
+        $query = Trabalho::query();
+
+        // Filtro por título
+        if ($request->filled('titulo')) {
+            $query->where('titulo', 'like', '%' . $request->titulo . '%');
+        }
+
+        // Filtro por curso
+        if ($request->filled('curso')) {
+            $query->where('curso', $request->curso); // Filtro direto para exata correspondência
+        }
+
+        // Filtro por simpósio
+        if ($request->filled('simposio')) {
+            $query->whereHas('simposio', function ($q) use ($request) {
+                $q->where('nome', 'like', '%' . $request->simposio . '%');
+            });
+        }
+
+        // Ordenação
+        if (in_array($request->get('ordem'), ['asc', 'desc'])) {
+            $query->orderBy('media_final', $request->ordem);
+        }
+
+        // Paginação
+        $trabalhos = $query->paginate(5)->withQueryString();
+
+        return view('resultados', compact('trabalhos'));
+    }
+
+
     // Exibe a lista de trabalhos
     public function index()
     {
@@ -18,16 +83,16 @@ class TrabalhoController extends Controller
     }
 
     // Exibe o formulário de criação de um novo trabalho
-    public function create()
+    public function create($simposioId)
     {
-        $simposios = Simposio::where('finalizado', false)->get();
+        $simposio = Simposio::findOrFail($simposioId);
 
-        if ($simposios->isEmpty()) {
-            return redirect()->back()->withErrors(['error' => 'Nenhum simpósio ativo. Crie um simpósio antes de adicionar trabalhos.']);
+        if (!$simposio) {
+            return redirect()->back()->withErrors(['error' => 'Nenhum não econtrado. Crie um simpósio antes de adicionar trabalhos.']);
         }
 
         $avaliadores = User::where('role', 'avaliador')->get();
-        return view('admin.criar-trabalho', compact('simposios', 'avaliadores'));
+        return view('admin.criar-trabalho', compact('simposio', 'avaliadores'));
     }
 
     // Salva um novo trabalho
@@ -43,7 +108,6 @@ class TrabalhoController extends Controller
                 'curso' => 'required|string',
                 'modelo_avaliativo' => 'nullable|string',
                 'avaliadores' => 'array',
-                'simposio_id' => 'required|exists:simposios,id'
             ]);
 
             // Resto do código...
@@ -68,7 +132,7 @@ class TrabalhoController extends Controller
                 $trabalho->avaliadores()->sync($request->avaliadores);
             }
 
-            return redirect()->route('trabalho.index')->with('success', 'Trabalho criado e avaliadores atribuídos com sucesso!');
+            return redirect()->route('simposios.edit', $simposioId)->with('success', 'Trabalho criado e avaliadores atribuídos com sucesso!');
         } catch (\Exception $e) {
             return redirect()->back()->withInput()->withErrors(['error' => $e->getMessage()]);
         }
@@ -99,6 +163,7 @@ class TrabalhoController extends Controller
             'avaliadores' => 'array'
         ]);
 
+        try {
         $trabalho->titulo = $request->titulo;
         $trabalho->resumo = $request->resumo;
         $trabalho->protocolo = $request->protocolo;
@@ -110,8 +175,12 @@ class TrabalhoController extends Controller
         if ($request->has('avaliadores')) {
             $trabalho->avaliadores()->sync($request->avaliadores);
         }
+        $simposioId = $trabalho->simposio_id;
 
-        return redirect()->route('trabalho.index')->with('success', 'Trabalho atualizado com sucesso!');
+            return redirect()->route('simposios.edit', $simposioId)->with('success', 'Trabalho atualizado com sucesso!');
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->withErrors(['error' => $e->getMessage()]);
+        }
     }
     public function destroy($id)
     {
