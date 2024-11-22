@@ -1,25 +1,7 @@
 <p align="center">
-  <img src="![image](https://github.com/user-attachments/assets/d33a772a-5d9a-4918-a569-e611a0b84147)
-" alt="SIMPAC Logo" width="100%">
+  <img src="https://th.bing.com/th/id/OIP.ntSuCwN5ueX85bh2J9ubLAHaDz?rs=1&pid=ImgDetMain" alt="SIMPAC Logo" width="50%">
 </p>
 
-<p align="center">
-  <strong>Tecnologias Utilizadas:</strong>
-    <br>
-  <br>
-  <a href="https://laravel.com" target="_blank">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Laravel.svg" alt="Laravel" height="50">
-  </a>
-  <a href="https://tailwindcss.com" target="_blank">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" alt="Tailwind CSS" height="50">
-  </a>
-  <a href="https://www.mysql.com/" target="_blank">
-    <img src="https://upload.wikimedia.org/wikipedia/en/d/dd/MySQL_logo.svg" alt="MySQL" height="50">
-  </a>
-  <a href="https://www.phpmyadmin.net/" target="_blank">
-    <img src="https://www.pngall.com/wp-content/uploads/8/phpMyAdmin-Logo.png" alt="PHPMyAdmin" height="50">
-  </a>
-</p>
 
 ---
 
@@ -36,6 +18,22 @@ O NUPEX (Núcleo de Apoio à Pesquisa e Extensão da Univiçosa), responsável p
 - **Frontend:** HTML, CSS (Tailwind CSS)  
 - **Arquitetura:** MVC (Model-View-Controller)
 
+<p align="center">
+
+  <br>
+  <a href="https://laravel.com" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Laravel.svg" alt="Laravel" height="50">
+  </a>
+  <a href="https://tailwindcss.com" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" alt="Tailwind CSS" height="50">
+  </a>
+  <a href="https://www.mysql.com/" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/en/d/dd/MySQL_logo.svg" alt="MySQL" height="50">
+  </a>
+  <a href="https://www.phpmyadmin.net/" target="_blank">
+    <img src="https://www.pngall.com/wp-content/uploads/8/phpMyAdmin-Logo.png" alt="PHPMyAdmin" height="50">
+  </a>
+</p>
 O Laravel foi escolhido por sua robustez, flexibilidade e ecossistema rico, que inclui recursos nativos para autenticação, roteamento e gerenciamento de banco de dados. O Tailwind CSS facilita a criação de interfaces modernas e responsivas, com uma abordagem baseada em utilitários altamente customizável.
 
 ---
